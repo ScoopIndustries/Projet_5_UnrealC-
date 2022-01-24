@@ -16,7 +16,12 @@ public:
 	APlayerCharacter();
 
 protected:
-	// Called when the game starts or when spawned
+	UPROPERTY(EditAnywhere)
+		UStaticMeshComponent* StaticMesh;
+
+	UPROPERTY(EditAnywhere)
+		USkeletalMeshComponent* SkeletalMesh;
+
 	virtual void BeginPlay() override;
 
 public:	
