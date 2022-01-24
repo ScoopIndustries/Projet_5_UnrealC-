@@ -18,6 +18,13 @@ public:
 	// Sets default values for this character's properties
 	APlayerCharacter();
 
+	UPROPERTY(VisibleAnywhere)
+		float ValueZoom;
+	UPROPERTY(VisibleAnywhere)
+		float ChangeValueZoom;
+	UPROPERTY(VisibleAnywhere)
+		float ValueProgressZoom = 20.f;
+
 protected:
 
 	UPROPERTY(VisibleAnywhere)
@@ -31,6 +38,8 @@ protected:
 
 	// fonction pour right / left
 	void MoveRight(float Value);
+
+	void CameraZoom(float Value);
 
 	virtual void BeginPlay() override;
 

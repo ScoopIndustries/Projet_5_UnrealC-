@@ -59,6 +59,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
+	PlayerInputComponent->BindAxis("Zoom", this, &APlayerCharacter::CameraZoom);
 
 }
 
@@ -90,5 +91,34 @@ void APlayerCharacter::MoveRight(float Value)
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 		// add movement in that direction
 		AddMovementInput(Direction, Value);
+	}
+}
+
+// Zoom de la camera (zoom / dézoom limité)
+void APlayerCharacter::CameraZoom(float Value)
+{
+	ValueZoom = CameraFollow->FieldOfView;
+
+	if (Value > 0.1f)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Zoom In !"));
+
+		if (ValueZoom > 50.f)
+		{
+			ChangeValueZoom = ValueZoom - ValueProgressZoom;
+		}
+		
+		CameraFollow->SetFieldOfView(ChangeValueZoom);
+	}
+	else if (Value < -0.1f)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, TEXT("Zoom Out !"));
+
+		if (ValueZoom < 130.f)
+		{
+			ChangeValueZoom = ValueZoom + ValueProgressZoom;
+		}
+
+		CameraFollow->SetFieldOfView(ChangeValueZoom);
 	}
 }
