@@ -15,6 +15,7 @@ APlayerCharacter::APlayerCharacter()
 
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(FName("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);	
+	CameraBoom->TargetArmLength = 350.0f; // distance entre la camera et le personnage par default
 	CameraBoom->bUsePawnControlRotation = true; // fait pivoter le bras en fonction do character
 
 	CameraFollow = CreateDefaultSubobject<UCameraComponent>(FName("CameraFollow"));
@@ -97,28 +98,32 @@ void APlayerCharacter::MoveRight(float Value)
 // Zoom de la camera (zoom / dézoom limité)
 void APlayerCharacter::CameraZoom(float Value)
 {
-	ValueZoom = CameraFollow->FieldOfView;
+	ValueZoom = CameraBoom->TargetArmLength;
+		//CameraFollow->FieldOfView;
 
 	if (Value > 0.1f)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Zoom In !"));
 
-		if (ValueZoom > 50.f)
+		if (ValueZoom > 200.f)
 		{
-			ChangeValueZoom = ValueZoom - ValueProgressZoom;
+			CameraBoom->TargetArmLength -= ValueProgressZoom;
 		}
-		
-		CameraFollow->SetFieldOfView(ChangeValueZoom);
 	}
 	else if (Value < -0.1f)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, TEXT("Zoom Out !"));
 
-		if (ValueZoom < 130.f)
+		if (ValueZoom < 700.f)
 		{
-			ChangeValueZoom = ValueZoom + ValueProgressZoom;
+			CameraBoom->TargetArmLength += ValueProgressZoom;
 		}
-
-		CameraFollow->SetFieldOfView(ChangeValueZoom);
 	}
+
+
+	/*float Length = CameraBoom->TargetArmLength;
+
+	FString StringLength = FString::FromInt(Length);
+
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("Pos De la camera : " + StringLength));*/
 }

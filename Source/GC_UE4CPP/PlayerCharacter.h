@@ -21,9 +21,7 @@ public:
 	UPROPERTY(VisibleAnywhere)
 		float ValueZoom;
 	UPROPERTY(VisibleAnywhere)
-		float ChangeValueZoom;
-	UPROPERTY(VisibleAnywhere)
-		float ValueProgressZoom = 20.f;
+		float ValueProgressZoom = 50.f;
 
 protected:
 
