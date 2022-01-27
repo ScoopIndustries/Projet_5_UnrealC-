@@ -13,6 +13,9 @@ APlayerCharacter::APlayerCharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	BoxCollision = CreateDefaultSubobject<UBoxComponent>(FName("BoxCollision"));
+	BoxCollision->SetupAttachment(RootComponent);
+
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(FName("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);	
 	CameraBoom->TargetArmLength = 350.0f; // distance entre la camera et le personnage par default
@@ -31,7 +34,7 @@ APlayerCharacter::APlayerCharacter()
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
 
-	// set our turn rates for input
+	// Ratio de rotation
 	BaseTurnRate = 45.f;
 	BaseLookUpRate = 45.f;
 
@@ -42,12 +45,15 @@ void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	BoxCollision->OnComponentBeginOverlap.AddDynamic(this, &APlayerCharacter::CallbackComponentBeginOverlap);
+	BoxCollision->OnComponentEndOverlap.AddDynamic(this, &APlayerCharacter::CallbackComponentEndOverlap);
 }
 
 // Called every frame
 void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
 }
 
 // Called to bind functionality to input
@@ -98,9 +104,9 @@ void APlayerCharacter::MoveRight(float Value)
 // Zoom de la camera (zoom / dézoom limité)
 void APlayerCharacter::CameraZoom(float Value)
 {
-	ValueZoom = CameraBoom->TargetArmLength;
-		//CameraFollow->FieldOfView;
+	ValueZoom = CameraBoom->TargetArmLength; // prend la valeur d'écart entre la camera et le character
 
+	// si zoom in
 	if (Value > 0.1f)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Zoom In !"));
@@ -110,6 +116,7 @@ void APlayerCharacter::CameraZoom(float Value)
 			CameraBoom->TargetArmLength -= ValueProgressZoom;
 		}
 	}
+	// si zoom out 
 	else if (Value < -0.1f)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, TEXT("Zoom Out !"));
@@ -126,4 +133,14 @@ void APlayerCharacter::CameraZoom(float Value)
 	FString StringLength = FString::FromInt(Length);
 
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("Pos De la camera : " + StringLength));*/
+}
+
+void APlayerCharacter::CallbackComponentBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("Overlap !"));
+}
+
+void APlayerCharacter::CallbackComponentEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Purple, TEXT("End Overlap !"));
 }

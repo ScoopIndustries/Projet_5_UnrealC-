@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include <Runtime/Engine/Classes/Camera/CameraComponent.h>
 #include <Runtime/Engine/Classes/GameFramework/SpringArmComponent.h>
+#include <Runtime/Engine/Classes/Components/BoxComponent.h>
 #include "PlayerCharacter.generated.h"
 
 UCLASS()
@@ -24,6 +25,9 @@ public:
 		float ValueProgressZoom = 50.f;
 
 protected:
+
+	UPROPERTY(VisibleAnywhere)
+		UBoxComponent* BoxCollision;
 
 	UPROPERTY(VisibleAnywhere)
 		USpringArmComponent* CameraBoom;
@@ -48,6 +52,12 @@ public:
 
 	UPROPERTY(VisibleAnywhere)
 		float BaseLookUpRate;
+
+	UFUNCTION()
+		void CallbackComponentBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	UFUNCTION()
+		void CallbackComponentEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
