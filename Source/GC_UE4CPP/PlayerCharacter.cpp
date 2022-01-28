@@ -5,6 +5,7 @@
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Components\WidgetComponent.h"
 #include "GameFramework/Controller.h"
 
 // Sets default values
@@ -15,6 +16,7 @@ APlayerCharacter::APlayerCharacter()
 
 	BoxCollision = CreateDefaultSubobject<UBoxComponent>(FName("BoxCollision"));
 	BoxCollision->SetupAttachment(RootComponent);
+	//SetCollisionProfile;
 
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(FName("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);	
@@ -53,7 +55,6 @@ void APlayerCharacter::BeginPlay()
 void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 // Called to bind functionality to input
@@ -107,32 +108,25 @@ void APlayerCharacter::CameraZoom(float Value)
 	ValueZoom = CameraBoom->TargetArmLength; // prend la valeur d'écart entre la camera et le character
 
 	// si zoom in
-	if (Value > 0.1f)
+	if (Value > ConditionForZoom)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Zoom In !"));
 
-		if (ValueZoom > 200.f)
+		if (ValueZoom > ValueZoomMax)
 		{
 			CameraBoom->TargetArmLength -= ValueProgressZoom;
 		}
 	}
 	// si zoom out 
-	else if (Value < -0.1f)
+	else if (Value < -ConditionForZoom)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, TEXT("Zoom Out !"));
 
-		if (ValueZoom < 700.f)
+		if (ValueZoom < ValueZoomMin)
 		{
 			CameraBoom->TargetArmLength += ValueProgressZoom;
 		}
 	}
-
-
-	/*float Length = CameraBoom->TargetArmLength;
-
-	FString StringLength = FString::FromInt(Length);
-
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("Pos De la camera : " + StringLength));*/
 }
 
 void APlayerCharacter::CallbackComponentBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -143,4 +137,11 @@ void APlayerCharacter::CallbackComponentBeginOverlap(UPrimitiveComponent* Overla
 void APlayerCharacter::CallbackComponentEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Purple, TEXT("End Overlap !"));
+}
+
+FVector APlayerCharacter::RecupPlayerVelocity()
+{
+	PlayerVelocity = GetVelocity();
+
+	return PlayerVelocity;
 }

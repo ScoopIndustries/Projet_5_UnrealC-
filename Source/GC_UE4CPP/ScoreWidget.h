@@ -14,19 +14,20 @@ class GC_UE4CPP_API UScoreWidget : public UUserWidget
 {
 	GENERATED_BODY()
 
-protected :
+protected:
+	void NativeConstruct() override;
 
-	void GenerateRandom();
+	UPROPERTY(meta = (BindWidget))
+		class UProgressBar* Score;
 
-	UPROPERTY( meta = ( TestWidget ))
+	/*void GenerateRandom();
+
+	UPROPERTY( meta = (BindWidget))
 		class UTextBlock* RandomNumberLabel;
 
-	UPROPERTY( meta = ( TestWidget ))
+	UPROPERTY( meta = (BindWidget))
 		class UButton* GenerateButton;
 
 	UFUNCTION()
-		void OnButtonTestClicked();
-	
-	void NativeConstruct() override;
-
+		void OnButtonTestClicked();*/
 };

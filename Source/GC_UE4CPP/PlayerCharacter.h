@@ -19,10 +19,42 @@ public:
 	// Sets default values for this character's properties
 	APlayerCharacter();
 
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
+	// Called to bind functionality to input
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	UPROPERTY(VisibleAnywhere)
+		float BaseTurnRate;
+	UPROPERTY(VisibleAnywhere)
+		float BaseLookUpRate;
 	UPROPERTY(VisibleAnywhere)
 		float ValueZoom;
 	UPROPERTY(VisibleAnywhere)
 		float ValueProgressZoom = 50.f;
+	UPROPERTY(VisibleAnywhere)
+		float ValueZoomMin = 700.f;
+	UPROPERTY(VisibleAnywhere)
+		float ValueZoomMax = 200.f;
+	UPROPERTY(VisibleAnywhere)
+		float ConditionForZoom = 0.f;
+
+	UPROPERTY(VisibleAnywhere)
+		bool IsCarrying = false;
+
+	UPROPERTY(VisibleAnywhere)
+		FVector PlayerVelocity;
+
+	UFUNCTION()
+		FVector RecupPlayerVelocity();
+
+	UFUNCTION()
+		void CallbackComponentBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	UFUNCTION()
+		void CallbackComponentEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
 
 protected:
 
@@ -40,29 +72,9 @@ protected:
 
 	// fonction pour right / left
 	void MoveRight(float Value);
-
+	
+	//fonction pour changer le zoom de la camera
 	void CameraZoom(float Value);
 
 	virtual void BeginPlay() override;
-
-public:	
-
-	UPROPERTY(VisibleAnywhere)
-		float BaseTurnRate;
-
-	UPROPERTY(VisibleAnywhere)
-		float BaseLookUpRate;
-
-	UFUNCTION()
-		void CallbackComponentBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-
-	UFUNCTION()
-		void CallbackComponentEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
-
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
 };

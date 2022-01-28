@@ -9,13 +9,15 @@
 void UScoreWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
-	
-	GenerateRandom();
 
-	GenerateButton->OnClicked.AddUniqueDynamic(this, &UScoreWidget::OnButtonTestClicked);
+
+	
+	/*GenerateRandom();
+
+	GenerateButton->OnClicked.AddUniqueDynamic(this, &UScoreWidget::OnButtonTestClicked);*/
 }
 
-void UScoreWidget::GenerateRandom()
+/*void UScoreWidget::GenerateRandom()
 {
 	int32 RandomNumber = FMath::RandRange(0, 100);
 
@@ -25,4 +27,4 @@ void UScoreWidget::GenerateRandom()
 void UScoreWidget::OnButtonTestClicked()
 {
 	GenerateRandom();
-}
+}*/
