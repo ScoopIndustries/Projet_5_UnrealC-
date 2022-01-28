@@ -67,7 +67,7 @@ void AEnemyController::OnPawnDetected(const TArray<AActor*> &DetectedPawns) {
 
 	for (size_t i = 0; i < DetectedPawns.Num(); i++) {
 		DistanceToPlayer = GetPawn()->GetDistanceTo(DetectedPawns[i]);
-		lastKnowPosition = DetectedPawns[i]->GetActorLocation();
+		//lastKnowPosition = DetectedPawns[i]->GetActorLocation();
 	}
 
 	bIsPlayerDetected = true;
