@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Food.h"
 #include "AIBotCharacter.generated.h"
 
 UCLASS()
@@ -18,11 +19,29 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class AWaypoint* NextWaypoint;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	FVector SocketR;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	FRotator CharRotation = GetControlRotation();
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)	
+		FName socket;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)	
+		USkeletalMeshComponent* SKmesh;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+		TSubclassOf<class AFood> FoodClass;
+
+	FActorSpawnParameters SpawnInfo;
+	FAttachmentTransformRules Rules = FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true);;
+
+
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
