@@ -6,5 +6,5 @@
 
 ATP_ThirdPersonGameMode::ATP_ThirdPersonGameMode()
 {
-
+	
 }
