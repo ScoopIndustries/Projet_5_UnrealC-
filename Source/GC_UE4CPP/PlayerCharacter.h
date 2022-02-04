@@ -34,7 +34,7 @@ public:
 	UPROPERTY(VisibleAnywhere)
 		float ValueProgressZoom = 50.f;
 	UPROPERTY(VisibleAnywhere)
-		float ValueZoomMin = 700.f;
+		float ValueZoomMin = 800.f;
 	UPROPERTY(VisibleAnywhere)
 		float ValueZoomMax = 200.f;
 	UPROPERTY(VisibleAnywhere)
@@ -48,6 +48,10 @@ public:
 
 	UFUNCTION()
 		FVector RecupPlayerVelocity();
+	UFUNCTION()
+		void PickUpObject();
+	UFUNCTION()
+		void DropObject();
 
 	UFUNCTION()
 		void CallbackComponentBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);

@@ -1,19 +1,19 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
-#include "GC_UE4CPPGameModeBase.generated.h"
+#include "PlayerGameMode.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class GC_UE4CPP_API AGC_UE4CPPGameModeBase : public AGameModeBase
+class GC_UE4CPP_API APlayerGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
-
+	
 public:
 
 	float GetFoodCollected() const { return FoodCollected; }
@@ -23,15 +23,14 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere)
-		float FoodCollected;
+		float FoodCollected = 6.f;
 
 	UPROPERTY(EditAnywhere)
-		float MaxFoodConditionWin;
+		float MaxFoodConditionWin = 10.f;
 
 	UPROPERTY(EditAnywhere, Category = "Class Types")
 		TSubclassOf<UUserWidget> WidgetClass;
 
 	UPROPERTY(VisibleInstanceOnly, Category = "Runtime")
 		class UScoreWidget* ScoreWidget;
-	
 };
