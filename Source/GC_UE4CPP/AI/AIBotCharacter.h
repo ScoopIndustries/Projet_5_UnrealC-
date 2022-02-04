@@ -17,6 +17,9 @@ public:
 	AAIBotCharacter();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool isCarrying;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class AWaypoint* NextWaypoint;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
@@ -27,6 +30,8 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)	
 		FName socket;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		AActor* Food;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)	
 		USkeletalMeshComponent* SKmesh;
@@ -35,7 +40,7 @@ public:
 		TSubclassOf<class AFood> FoodClass;
 
 	FActorSpawnParameters SpawnInfo;
-	FAttachmentTransformRules Rules = FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true);;
+
 
 
 

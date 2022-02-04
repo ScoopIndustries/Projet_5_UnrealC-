@@ -3,6 +3,7 @@
 
 #include "AIBotCharacter.h"
 #include "Food.h"
+#include "Components/SceneComponent.h"
 #include "Components/PrimitiveComponent.h"
 
 // Sets default values
@@ -20,14 +21,24 @@ void AAIBotCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	//Spawn Actor on the socket
-	AActor* Post = GetWorld()->SpawnActor<AFood>(FoodClass, SocketR, CharRotation, SpawnInfo);
-	Post->AttachToComponent(SKmesh, Rules, socket);
+	Food = GetWorld()->SpawnActor<AFood>(FoodClass, SocketR, CharRotation, SpawnInfo);
+	FAttachmentTransformRules Rules(EAttachmentRule::SnapToTarget, EAttachmentRule::KeepWorld, EAttachmentRule::KeepWorld, false);
+	Food->AttachToComponent(SKmesh, Rules, socket);
 }
 
 // Called every frame
 void AAIBotCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if (Food != nullptr)
+	{
+		isCarrying = true;
+	}
+	else
+	{
+		isCarrying = false;
+	}
 
 }
 
