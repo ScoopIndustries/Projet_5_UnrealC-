@@ -18,18 +18,21 @@ EBTNodeResult::Type UPutItemOnPlate::ExecuteTask(UBehaviorTreeComponent& OwnerCo
 	auto const controller = Cast<AEnemyController>(OwnerComp.GetAIOwner());
 	auto const enemy = controller->GetPawn();
 	auto const player = Cast<AAIBotCharacter>(enemy);
-	
+	auto plate = player->ListOfPoint[player->CycleIndex]->GetActorLocation();
 
-	//Detach Food component
-	if (player->FoodActor != nullptr)
+	if ((player->GetActorLocation().X - plate.X) < 2000.0f)
 	{
-		FDetachmentTransformRules rules(EDetachmentRule::KeepRelative, EDetachmentRule::KeepRelative, EDetachmentRule::KeepRelative, false);
-		player->FoodActor->DetachFromActor(rules);
-		player->FoodActor = nullptr;
+		//Detach Food component
+		if (player->FoodActor != nullptr)
+		{
+			FDetachmentTransformRules rules(EDetachmentRule::KeepRelative, EDetachmentRule::KeepRelative, EDetachmentRule::KeepRelative, false);
+			player->FoodActor->DetachFromActor(rules);
+			//Attach Food Component to Plate
+			FAttachmentTransformRules Rules(EAttachmentRule::SnapToTarget, EAttachmentRule::KeepRelative, EAttachmentRule::SnapToTarget, false);
+			player->FoodActor->AttachToActor(player->ListOfPoint[player->CycleIndex], Rules, TEXT("SocketApple"));
+			player->FoodActor = nullptr;
+		}
 	}
-
-	player->ListOfPoint[0]->GetActorLocation();
-	//Attach Food Component to Plate
 
 
 	return EBTNodeResult::Succeeded;

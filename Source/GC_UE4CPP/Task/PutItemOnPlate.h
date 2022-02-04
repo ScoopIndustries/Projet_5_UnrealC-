@@ -20,6 +20,4 @@ class GC_UE4CPP_API UPutItemOnPlate : public UBTTask_BlackboardBase
 public:
 	UPutItemOnPlate();
 	EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory);
-
-
 };

@@ -24,8 +24,8 @@ void AAIBotCharacter::BeginPlay()
 
 	//Get All actor Needs to place food
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AWaypoint::StaticClass(), ListOfPoint);
-
-	//NextWaypoint = ListOfPoint[0];
+	PlayerGameState = Cast<APlayerGameState>(GetWorld()->GetGameState());
+	CycleIndex = PlayerGameState->Cycle;
 
 	//Spawn Actor (Food) on the socket
 	FActorSpawnParameters SpawnInfo;
