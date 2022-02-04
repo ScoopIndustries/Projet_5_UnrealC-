@@ -15,7 +15,9 @@ class GC_UE4CPP_API AEnemyController : public AAIController
 	GENERATED_BODY()
 
 public:
-	AEnemyController();
+	AEnemyController(FObjectInitializer const& ObjectInitializer);
+	//Blackboard
+	class UBlackboardComponent* GetBlackboard() const;
 
 	virtual void BeginPlay() override;
 
@@ -49,6 +51,14 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = AI)
 		float DistanceToPlayer = 0.0f;
 
-/*private:
-	FVector lastKnowPosition;*/
+private:
+	//FVector lastKnowPosition;
+
+	UPROPERTY(EditInstanceOnly, BlueprintReadWrite, Category = "BlackboardAI", meta = (AllowPrivateAccess = "true"))
+		class UBehaviorTreeComponent* BehaviorTreeComponent;
+
+	UPROPERTY(EditInstanceOnly, BlueprintReadWrite, Category = "BlackboardAI", meta = (AllowPrivateAccess = "true"))
+		class UBehaviorTree* BTree;
+
+	class UBlackboardComponent* blackboard;
 };

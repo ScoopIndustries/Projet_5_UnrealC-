@@ -18,13 +18,10 @@ public:
 	AWaypoint();
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-	USceneComponent* Root;
+	UStaticMeshComponent* StaticMesh;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	UBoxComponent* BoxComponent;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	AWaypoint* NextWaypoint;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	AFood* Food;
@@ -37,6 +34,9 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	UFUNCTION()
+		FVector GetPlateLocation();
 
 	UFUNCTION()
 		void OnEnterTrigger(UPrimitiveComponent* OverlapComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult);

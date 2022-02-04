@@ -20,18 +20,12 @@ public:
 		bool isCarrying;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	class AWaypoint* NextWaypoint;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-	FVector SocketR;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-	FRotator CharRotation = GetControlRotation();
+		AActor* NextWaypoint;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)	
 		FName socket;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-		AActor* Food;
+		AActor* FoodActor;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)	
 		USkeletalMeshComponent* SKmesh;
@@ -39,8 +33,8 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 		TSubclassOf<class AFood> FoodClass;
 
-	FActorSpawnParameters SpawnInfo;
-
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		TArray<AActor*> ListOfPoint;
 
 
 
@@ -54,4 +48,8 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	//Get Item on ground
+	void GetFromTheGround();
+	//Put Item on ground
+	void PutOnTheGround();
 };
