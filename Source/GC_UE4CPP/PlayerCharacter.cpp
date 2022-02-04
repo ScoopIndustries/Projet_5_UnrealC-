@@ -65,10 +65,12 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	PlayerInputComponent->BindAxis("MoveForward", this, &APlayerCharacter::MoveForward); // appel la fonction "MoveForward"
 	PlayerInputComponent->BindAxis("MoveRight", this, &APlayerCharacter::MoveRight); // appel la fonction "MoveRight"
 
-	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
-	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
-	PlayerInputComponent->BindAxis("Zoom", this, &APlayerCharacter::CameraZoom);
+	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput); // tourner la camera
+	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput); // tourner le character selon la direction de la camera
+	PlayerInputComponent->BindAxis("Zoom", this, &APlayerCharacter::CameraZoom); // zommer la camera
 
+	PlayerInputComponent->BindAction("PickUp", IE_Pressed, this, &APlayerCharacter::PickUpObject); // prendre l'object
+	//PlayerInputComponent->BindAction("PickUp", IE_Pressed, this, &APlayerCharacter::DropObject);
 }
 
 // fonction pour avancer / reculer
@@ -144,4 +146,27 @@ FVector APlayerCharacter::RecupPlayerVelocity()
 	PlayerVelocity = GetVelocity();
 
 	return PlayerVelocity;
+}
+
+void APlayerCharacter::PickUpObject()
+{
+	if (!IsCarrying)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, TEXT("PickUp"));
+
+		PlayerGameState = Cast<APlayerGameState>(GetWorld()->GetGameState()); // A enlever pour le bien du projet !!!
+		PlayerGameState->FoodCollected += 1; // A enlever pour le bien du projet !!!
+
+		IsCarrying = true;
+	}
+	else if (IsCarrying)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, TEXT("Drop")); 
+		IsCarrying = false;
+	}
+}
+
+void APlayerCharacter::DropObject()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, TEXT("Drop"));
 }

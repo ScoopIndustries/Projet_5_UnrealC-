@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include <GC_UE4CPP/PlayerGameState.h> // A enlever pour le bien du projet !!!
 #include <Runtime/Engine/Classes/Camera/CameraComponent.h>
 #include <Runtime/Engine/Classes/GameFramework/SpringArmComponent.h>
 #include <Runtime/Engine/Classes/Components/BoxComponent.h>
@@ -34,7 +35,7 @@ public:
 	UPROPERTY(VisibleAnywhere)
 		float ValueProgressZoom = 50.f;
 	UPROPERTY(VisibleAnywhere)
-		float ValueZoomMin = 700.f;
+		float ValueZoomMin = 800.f;
 	UPROPERTY(VisibleAnywhere)
 		float ValueZoomMax = 200.f;
 	UPROPERTY(VisibleAnywhere)
@@ -48,6 +49,10 @@ public:
 
 	UFUNCTION()
 		FVector RecupPlayerVelocity();
+	UFUNCTION()
+		void PickUpObject();
+	UFUNCTION()
+		void DropObject();
 
 	UFUNCTION()
 		void CallbackComponentBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
@@ -77,4 +82,7 @@ protected:
 	void CameraZoom(float Value);
 
 	virtual void BeginPlay() override;
+
+	UPROPERTY(VisibleInstanceOnly, Category = "Runtime") // A enlever pour le bien du projet !!!
+		class APlayerGameState* PlayerGameState; // A enlever pour le bien du projet !!!
 };

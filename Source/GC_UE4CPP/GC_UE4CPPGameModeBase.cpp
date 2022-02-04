@@ -2,7 +2,6 @@
 
 
 #include "GC_UE4CPPGameModeBase.h"
-
 #include "ScoreWidget.h"
 #include "Blueprint\UserWidget.h"
 
