@@ -153,6 +153,10 @@ void APlayerCharacter::PickUpObject()
 	if (!IsCarrying)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, TEXT("PickUp"));
+
+		PlayerGameState = Cast<APlayerGameState>(GetWorld()->GetGameState()); // A enlever pour le bien du projet !!!
+		PlayerGameState->FoodCollected += 1; // A enlever pour le bien du projet !!!
+
 		IsCarrying = true;
 	}
 	else if (IsCarrying)

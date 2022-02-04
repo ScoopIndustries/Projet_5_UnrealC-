@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include <GC_UE4CPP/PlayerGameState.h> // A enlever pour le bien du projet !!!
 #include <Runtime/Engine/Classes/Camera/CameraComponent.h>
 #include <Runtime/Engine/Classes/GameFramework/SpringArmComponent.h>
 #include <Runtime/Engine/Classes/Components/BoxComponent.h>
@@ -81,4 +82,7 @@ protected:
 	void CameraZoom(float Value);
 
 	virtual void BeginPlay() override;
+
+	UPROPERTY(VisibleInstanceOnly, Category = "Runtime") // A enlever pour le bien du projet !!!
+		class APlayerGameState* PlayerGameState; // A enlever pour le bien du projet !!!
 };
