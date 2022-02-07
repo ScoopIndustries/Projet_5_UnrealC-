@@ -41,7 +41,7 @@ public:
 	UPROPERTY(VisibleAnywhere)
 		float ConditionForZoom = 0.f;
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(EditAnywhere)
 		bool IsCarrying = false;
 
 	UPROPERTY(VisibleAnywhere)

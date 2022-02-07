@@ -16,14 +16,10 @@ class GC_UE4CPP_API APlayerGameMode : public AGameModeBase
 	
 public:
 
-	float GetFoodCollected() const { return FoodCollected; }
 	float GetMaxFoodConditionWin() const { return MaxFoodConditionWin; }
 
 protected:
 	virtual void BeginPlay() override;
-
-	UPROPERTY(EditAnywhere)
-		float FoodCollected = 6.f;
 
 	UPROPERTY(EditAnywhere)
 		float MaxFoodConditionWin = 10.f;
