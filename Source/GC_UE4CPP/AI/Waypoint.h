@@ -24,7 +24,7 @@ public:
 	UBoxComponent* BoxComponent;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	AFood* Food;
+	AActor* Food;
 
 
 protected:

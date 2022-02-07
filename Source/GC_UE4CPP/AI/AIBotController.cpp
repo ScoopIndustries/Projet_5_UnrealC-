@@ -24,10 +24,10 @@ void AAIBotController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
-	AAIBotCharacter* Chara = Cast<AAIBotCharacter>(GetPawn());
+	/*AAIBotCharacter* Chara = Cast<AAIBotCharacter>(GetPawn());
 	if (Chara->NextWaypoint != nullptr)
 	{
 		MoveToActor(Chara->NextWaypoint, 5.0f);
-	}
+	}*/
 
 }

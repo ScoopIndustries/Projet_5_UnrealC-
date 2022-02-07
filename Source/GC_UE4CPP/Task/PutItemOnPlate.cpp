@@ -4,6 +4,7 @@
 #include "PutItemOnPlate.h"
 #include "BBkey.h"
 #include "../EnemyController.h"
+#include "../AI/Waypoint.h"
 #include "GC_UE4CPP/AI/AIBotCharacter.h"
 
 UPutItemOnPlate::UPutItemOnPlate()
@@ -18,22 +19,21 @@ EBTNodeResult::Type UPutItemOnPlate::ExecuteTask(UBehaviorTreeComponent& OwnerCo
 	auto const controller = Cast<AEnemyController>(OwnerComp.GetAIOwner());
 	auto const enemy = controller->GetPawn();
 	auto const player = Cast<AAIBotCharacter>(enemy);
-	auto plate = player->ListOfPoint[player->CycleIndex]->GetActorLocation();
 
-	if ((player->GetActorLocation().X - plate.X) < 2000.0f)
+	auto const Index = controller->GetBlackboard()->GetValueAsInt(TEXT("IndexListPlate"));
+	auto plate = player->ListOfPoint[Index];
+	auto const CastPlate = Cast<AWaypoint>(plate);
+
+	if ((player->GetActorLocation().X - plate->GetActorLocation().X) < 600.0f && CastPlate->Food == nullptr && player->FoodActor != nullptr)
 	{
-		//Detach Food component
-		if (player->FoodActor != nullptr)
-		{
 			FDetachmentTransformRules rules(EDetachmentRule::KeepRelative, EDetachmentRule::KeepRelative, EDetachmentRule::KeepRelative, false);
 			player->FoodActor->DetachFromActor(rules);
 			//Attach Food Component to Plate
 			FAttachmentTransformRules Rules(EAttachmentRule::SnapToTarget, EAttachmentRule::KeepRelative, EAttachmentRule::SnapToTarget, false);
-			player->FoodActor->AttachToActor(player->ListOfPoint[player->CycleIndex], Rules, TEXT("SocketApple"));
+			player->FoodActor->AttachToActor(plate, Rules, TEXT("SocketApple"));
+			CastPlate->Food = player->FoodActor;
 			player->FoodActor = nullptr;
-		}
+			return EBTNodeResult::Succeeded;
 	}
-
-
-	return EBTNodeResult::Succeeded;
+	return EBTNodeResult::Failed;
 }

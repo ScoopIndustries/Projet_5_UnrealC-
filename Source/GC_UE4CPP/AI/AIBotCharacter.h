@@ -20,9 +20,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		bool isCarrying;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		AActor* NextWaypoint;
-
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)	
 		FName socket;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)

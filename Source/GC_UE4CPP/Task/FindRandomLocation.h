@@ -20,8 +20,4 @@ class GC_UE4CPP_API UFindRandomLocation : public UBTTask_BlackboardBase
 public:
 	UFindRandomLocation(FObjectInitializer const& Object_Initializer);
 	EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& Owner_Component, uint8* Node_Memory);
-
-private:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Search", meta = (AllowPrivateAccess = "true"))
-		float SearchRadius = 1500.0f;
 };
