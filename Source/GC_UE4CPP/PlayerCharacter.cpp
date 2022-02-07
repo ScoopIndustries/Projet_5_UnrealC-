@@ -2,6 +2,7 @@
 
 
 #include "PlayerCharacter.h"
+#include "Components/SceneComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -14,9 +15,10 @@ APlayerCharacter::APlayerCharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	SkeletalMesh = GetMesh();
+
 	BoxCollision = CreateDefaultSubobject<UBoxComponent>(FName("BoxCollision"));
 	BoxCollision->SetupAttachment(RootComponent);
-	//SetCollisionProfile;
 
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(FName("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);	
@@ -133,7 +135,10 @@ void APlayerCharacter::CameraZoom(float Value)
 
 void APlayerCharacter::CallbackComponentBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("Overlap !"));
+	if (Food == nullptr)
+	{
+		Food = Cast<AFood>(OtherActor);
+	}
 }
 
 void APlayerCharacter::CallbackComponentEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
@@ -152,16 +157,28 @@ void APlayerCharacter::PickUpObject()
 {
 	if (!IsCarrying)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, TEXT("PickUp"));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, TEXT("PickUp"));
 
-		PlayerGameState = Cast<APlayerGameState>(GetWorld()->GetGameState()); // A enlever pour le bien du projet !!!
-		PlayerGameState->FoodCollected += 1; // A enlever pour le bien du projet !!!
+		//PlayerGameState = Cast<APlayerGameState>(GetWorld()->GetGameState()); // A enlever pour le bien du projet !!!
+		//PlayerGameState->FoodCollected += 1; // A enlever pour le bien du projet !!!
 
-		IsCarrying = true;
+		if (Food != nullptr) {
+			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Press E for take food"));
+
+			FAttachmentTransformRules Rules(EAttachmentRule::SnapToTarget, EAttachmentRule::KeepRelative, EAttachmentRule::KeepWorld, false);
+			Food->AttachToComponent(SkeletalMesh, Rules, TEXT("Fist_R_endSocket"));
+
+			IsCarrying = true;
+		}
 	}
 	else if (IsCarrying)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, TEXT("Drop")); 
+
+		FDetachmentTransformRules rules(EDetachmentRule::KeepWorld, EDetachmentRule::KeepRelative, EDetachmentRule::KeepWorld, false);
+		Food->DetachFromActor(rules);
+		Food = nullptr;
+
 		IsCarrying = false;
 	}
 }

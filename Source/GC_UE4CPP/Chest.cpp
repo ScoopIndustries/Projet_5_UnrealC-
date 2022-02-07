@@ -51,6 +51,8 @@ void AChest::CallbackComponentBeginOverlap(UPrimitiveComponent* OverlappedCompon
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Purple, TEXT("Le joueur porte un Objet"));
 
+			PlayerCharacter->Food->Destroy();
+			PlayerCharacter->Food = nullptr;
 			PlayerCharacter->IsCarrying = false;
 			PlayerGameState->FoodCollected++;
 		}

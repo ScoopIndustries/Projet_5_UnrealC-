@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include <GC_UE4CPP/AI/Food.h>
 #include <GC_UE4CPP/PlayerGameState.h> // A enlever pour le bien du projet !!!
 #include <Runtime/Engine/Classes/Camera/CameraComponent.h>
 #include <Runtime/Engine/Classes/GameFramework/SpringArmComponent.h>
@@ -47,6 +48,9 @@ public:
 	UPROPERTY(VisibleAnywhere)
 		FVector PlayerVelocity;
 
+	UPROPERTY(VisibleAnywhere)
+		class AFood* Food;
+
 	UFUNCTION()
 		FVector RecupPlayerVelocity();
 	UFUNCTION()
@@ -62,6 +66,9 @@ public:
 
 
 protected:
+
+	UPROPERTY(VisibleAnywhere)
+		USkeletalMeshComponent* SkeletalMesh;
 
 	UPROPERTY(VisibleAnywhere)
 		UBoxComponent* BoxCollision;
