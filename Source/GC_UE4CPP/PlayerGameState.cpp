@@ -3,3 +3,11 @@
 
 #include "PlayerGameState.h"
 
+void APlayerGameState::UpdateCycle()
+{
+	Cycle++;
+	if (Cycle > 4)
+	{
+		Cycle = 0;
+	}
+}

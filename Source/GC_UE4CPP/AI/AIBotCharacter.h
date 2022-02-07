@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Food.h"
+#include "../PlayerGameState.h"
 #include "AIBotCharacter.generated.h"
 
 UCLASS()
@@ -19,19 +20,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		bool isCarrying;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	class AWaypoint* NextWaypoint;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-	FVector SocketR;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-	FRotator CharRotation = GetControlRotation();
-
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)	
 		FName socket;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-		AActor* Food;
+		AActor* FoodActor;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)	
 		USkeletalMeshComponent* SKmesh;
@@ -39,10 +31,14 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 		TSubclassOf<class AFood> FoodClass;
 
-	FActorSpawnParameters SpawnInfo;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		TArray<AActor*> ListOfPoint;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		int CycleIndex;
 
-
+	UPROPERTY(VisibleInstanceOnly, Category = "Runtime")
+		class APlayerGameState* PlayerGameState;
 
 protected:
 	// Called when the game starts or when spawned
@@ -54,4 +50,8 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	//Get Item on ground
+	void GetFromTheGround();
+	//Put Item on ground
+	void PutOnTheGround();
 };

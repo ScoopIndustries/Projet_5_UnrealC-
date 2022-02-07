@@ -4,6 +4,8 @@
 #include "AIBotCharacter.h"
 #include "Food.h"
 #include "Components/SceneComponent.h"
+#include "Waypoint.h"
+#include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "Components/PrimitiveComponent.h"
 
 // Sets default values
@@ -20,25 +22,23 @@ void AAIBotCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	//Spawn Actor on the socket
-	Food = GetWorld()->SpawnActor<AFood>(FoodClass, SocketR, CharRotation, SpawnInfo);
+	//Get All actor Needs to place food
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AWaypoint::StaticClass(), ListOfPoint);
+
+	//Spawn Actor (Food) on the socket
+	FActorSpawnParameters SpawnInfo;
+	FRotator CharRotation = GetControlRotation();
+	FVector SocketR;
+	FoodActor = GetWorld()->SpawnActor<AFood>(FoodClass, SocketR, CharRotation, SpawnInfo);
 	FAttachmentTransformRules Rules(EAttachmentRule::SnapToTarget, EAttachmentRule::KeepWorld, EAttachmentRule::KeepWorld, false);
-	Food->AttachToComponent(SKmesh, Rules, socket);
+	FoodActor->AttachToComponent(SKmesh, Rules, socket);
 }
+
 
 // Called every frame
 void AAIBotCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	if (Food != nullptr)
-	{
-		isCarrying = true;
-	}
-	else
-	{
-		isCarrying = false;
-	}
 
 }
 

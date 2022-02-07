@@ -18,5 +18,9 @@ public :
 
 	UPROPERTY(VisibleAnywhere)
 		float FoodCollected = 2.f;
+	UPROPERTY(VisibleAnywhere)
+		int8 Cycle = 0;
 	
+	UFUNCTION()
+		void UpdateCycle();
 };
