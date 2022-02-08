@@ -41,7 +41,6 @@ APlayerCharacter::APlayerCharacter()
 	// Ratio de rotation
 	BaseTurnRate = 45.f;
 	BaseLookUpRate = 45.f;
-
 }
 
 // Called when the game starts or when spawned

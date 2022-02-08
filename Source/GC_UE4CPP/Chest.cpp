@@ -3,6 +3,7 @@
 
 #include "Chest.h"
 #include <GC_UE4CPP/PlayerCharacter.h>
+#include <GC_UE4CPP/PlayerGameMode.h>
 
 // Sets default values
 AChest::AChest()
@@ -28,6 +29,7 @@ void AChest::BeginPlay()
 
 	BoxCollision->OnComponentBeginOverlap.AddDynamic(this, &AChest::CallbackComponentBeginOverlap);
 
+	PlayerGameMode = Cast<APlayerGameMode>(GetWorld()->GetAuthGameMode());
 	PlayerGameState = Cast<APlayerGameState>(GetWorld()->GetGameState());
 	
 }
@@ -55,6 +57,11 @@ void AChest::CallbackComponentBeginOverlap(UPrimitiveComponent* OverlappedCompon
 			PlayerCharacter->Food = nullptr;
 			PlayerCharacter->IsCarrying = false;
 			PlayerGameState->FoodCollected++;
+
+			if (PlayerGameState->FoodCollected >= PlayerGameMode->GetMaxFoodConditionWin())
+			{
+				PlayerGameMode->GameWin();
+			}
 		}
 	}
 }

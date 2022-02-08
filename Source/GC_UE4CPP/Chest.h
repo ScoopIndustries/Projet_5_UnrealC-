@@ -33,6 +33,9 @@ protected:
 		class APlayerCharacter* PlayerCharacter;
 
 	UPROPERTY(VisibleInstanceOnly, Category = "Runtime")
+		class APlayerGameMode* PlayerGameMode;
+
+	UPROPERTY(VisibleInstanceOnly, Category = "Runtime")
 		class APlayerGameState* PlayerGameState;
 
 public:	

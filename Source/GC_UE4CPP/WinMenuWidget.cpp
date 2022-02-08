@@ -1,0 +1,20 @@
+// Fill out your copyright notice in the Description page of Project Settings.
+
+
+#include "WinMenuWidget.h"
+#include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
+
+void UWinMenuWidget::NativeConstruct()
+{
+	Super::NativeConstruct();
+
+	RestartButton->OnClicked.AddUniqueDynamic(this, &UWinMenuWidget::RestartGame);
+
+	UGameplayStatics::SetGamePaused(GetWorld(), true);
+
+}
+
+void UWinMenuWidget::RestartGame()
+{
+	UGameplayStatics::OpenLevel(this, "LevelFlo");
+}

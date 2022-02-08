@@ -8,6 +8,7 @@
 #include <GC_UE4CPP/PlayerGameState.h>
 #include <Runtime/UMG/Public/Components/ProgressBar.h>
 #include <Runtime/UMG/Public/Components/TextBlock.h>
+#include <Runtime/UMG/Public/Components/Button.h>
 #include "ScoreWidget.generated.h"
 
 /**
