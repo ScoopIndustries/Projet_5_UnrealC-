@@ -144,6 +144,11 @@ void APlayerCharacter::CallbackComponentBeginOverlap(UPrimitiveComponent* Overla
 void APlayerCharacter::CallbackComponentEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Purple, TEXT("End Overlap !"));
+
+	if (Food == OtherActor && !IsCarrying)
+	{
+		Food = nullptr;
+	}
 }
 
 FVector APlayerCharacter::RecupPlayerVelocity()
@@ -177,7 +182,7 @@ void APlayerCharacter::PickUpObject()
 
 		FDetachmentTransformRules rules(EDetachmentRule::KeepWorld, EDetachmentRule::KeepRelative, EDetachmentRule::KeepWorld, false);
 		Food->DetachFromActor(rules);
-		Food = nullptr;
+		//Food = nullptr;
 
 		IsCarrying = false;
 	}
