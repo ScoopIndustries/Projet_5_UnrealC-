@@ -40,6 +40,12 @@ public:
 	UPROPERTY(VisibleInstanceOnly, Category = "Runtime")
 		class APlayerGameState* PlayerGameState;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Speed")
+		float WalkSpeed = 450.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Speed")
+		float CarrySpeed = 250.0f;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

@@ -23,7 +23,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = "Generic")
 		bool isCarry;
 		
-
 	
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
 };

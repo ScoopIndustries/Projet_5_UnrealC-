@@ -6,6 +6,7 @@
 #include "Components/SceneComponent.h"
 #include "Waypoint.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "Components/PrimitiveComponent.h"
 
 // Sets default values
@@ -21,7 +22,8 @@ AAIBotCharacter::AAIBotCharacter()
 void AAIBotCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-
+	auto CharaMove = this->GetCharacterMovement();
+	CharaMove->MaxWalkSpeed = 450.0f;
 	//Get All actor Needs to place food
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AWaypoint::StaticClass(), ListOfPoint);
 
@@ -39,7 +41,19 @@ void AAIBotCharacter::BeginPlay()
 void AAIBotCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	if (FoodActor != nullptr)
+	{
+		isCarrying = true;
+		auto CharaMove = this->GetCharacterMovement();
+		CharaMove->MaxWalkSpeed = CarrySpeed;
+		
+	}
+	else
+	{
+		isCarrying = false;
+		auto CharaMove = this->GetCharacterMovement();
+		CharaMove->MaxWalkSpeed = WalkSpeed;
+	}
 }
 
 // Called to bind functionality to input

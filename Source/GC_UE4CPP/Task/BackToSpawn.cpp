@@ -18,7 +18,7 @@ EBTNodeResult::Type UBackToSpawn::ExecuteTask(UBehaviorTreeComponent& Owner_Comp
 	auto const enemy = controller->GetPawn();
 	auto const player = Cast<AAIBotCharacter>(enemy);
 
-	FVector location = FVector(0, 0, 0);
+	FVector location = FVector(580,3240, 0);
 	controller->GetBlackboard()->SetValueAsVector(bb_keys::Target_Location, location);
 
 	return EBTNodeResult::Succeeded;
