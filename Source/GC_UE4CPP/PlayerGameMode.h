@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include "AI/AIBotCharacter.h"
+#include "EnemyController.h"
 #include "PlayerGameMode.generated.h"
 
 /**
@@ -17,9 +19,11 @@ class GC_UE4CPP_API APlayerGameMode : public AGameModeBase
 public:
 
 	float GetMaxFoodConditionWin() const { return MaxFoodConditionWin; }
+	virtual void Tick(float DeltaTime) override;
 
 protected:
 	virtual void BeginPlay() override;
+	void SpawnEnemy();
 
 	UPROPERTY(EditAnywhere)
 		float MaxFoodConditionWin = 10.f;
@@ -29,4 +33,9 @@ protected:
 
 	UPROPERTY(VisibleInstanceOnly, Category = "Runtime")
 		class UScoreWidget* ScoreWidget;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TSubclassOf<AAIBotCharacter> AIBotClass;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TSubclassOf<AEnemyController> EnemyController;
 };
