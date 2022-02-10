@@ -149,6 +149,19 @@ void APlayerCharacter::CallbackComponentBeginOverlap(UPrimitiveComponent* Overla
 	{
 		Food = Cast<AFood>(OtherActor);
 	}
+
+	Plate = Cast<AWaypoint>(OtherActor);
+
+	if (Plate != nullptr) 
+	{
+		if (Plate->Food != nullptr) 
+		{
+			if (Food == nullptr)
+			{
+				Plate->Food = nullptr;
+			}
+		}
+	}
 }
 
 void APlayerCharacter::CallbackComponentEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
@@ -158,6 +171,11 @@ void APlayerCharacter::CallbackComponentEndOverlap(UPrimitiveComponent* Overlapp
 	if (Food == OtherActor && !IsCarrying)
 	{
 		Food = nullptr;
+	}
+
+	if (Plate == OtherActor)
+	{
+		Plate = nullptr;
 	}
 }
 

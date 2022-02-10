@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include <GC_UE4CPP/AI/Food.h>
+#include "AI/Waypoint.h"
 #include <GC_UE4CPP/PlayerGameState.h> // A enlever pour le bien du projet !!!
 #include <Runtime/Engine/Classes/Camera/CameraComponent.h>
 #include <Runtime/Engine/Classes/GameFramework/SpringArmComponent.h>
@@ -50,6 +51,10 @@ public:
 
 	UPROPERTY(VisibleAnywhere)
 		class AFood* Food;
+
+	UPROPERTY(VisibleAnywhere)
+		class AWaypoint* Plate;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Speed")
 		float WalkSpeed = 450.0f;
 
