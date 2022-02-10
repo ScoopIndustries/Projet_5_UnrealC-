@@ -9,7 +9,7 @@
 #include "BBKey.h"
 
 UFindPatrolLocation::UFindPatrolLocation(FObjectInitializer const& object_initializer) {
-	NodeName = TEXT("Find Random Location");
+	NodeName = TEXT("Find Patrol Location");
 }
 
 EBTNodeResult::Type UFindPatrolLocation::ExecuteTask(UBehaviorTreeComponent& owner_comp, uint8* node_memory) {
