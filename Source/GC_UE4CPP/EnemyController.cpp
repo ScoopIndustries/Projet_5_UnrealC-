@@ -11,6 +11,8 @@
 #include "Perception/AISenseConfig_Sight.h"
 #include "TP_ThirdPerson/TP_ThirdPersonCharacter.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
+#include "Task/BBKey.h"
+
 
 AEnemyController::AEnemyController(FObjectInitializer const& ObjectInitializer = FObjectInitializer::Get()) {
 
@@ -61,22 +63,6 @@ void AEnemyController::OnPossess(APawn *MyPawn) {
 
 void AEnemyController::Tick(float DeltaSeconds) {
 	Super::Tick(DeltaSeconds);
-	/*
-	AEnemyCharacter* Enemy = Cast<AEnemyCharacter>(GetPawn());
-
-	if (DistanceToPlayer > AISightRadius) {
-		bIsPlayerDetected = false;
-	}
-
-	if (bIsPlayerDetected == false) {
-		MoveToActor(Enemy->Target);
-	}
-	else{
-		ATP_ThirdPersonCharacter* Player = Cast<ATP_ThirdPersonCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
-		MoveToActor(Player, 5.0f);
-		//MoveTo(lastKnowPosition);
-
-	}*/
 }
 
 FRotator AEnemyController::GetControlRotation() const {
@@ -89,12 +75,5 @@ FRotator AEnemyController::GetControlRotation() const {
 
 void AEnemyController::OnPawnDetected(const TArray<AActor*> &DetectedPawns) {
 
-	for (size_t i = 0; i < DetectedPawns.Num(); i++) {
-		DistanceToPlayer = GetPawn()->GetDistanceTo(DetectedPawns[i]);
-		//lastKnowPosition = DetectedPawns[i]->GetActorLocation();
-	}
-
-	bIsPlayerDetected = true;
-
-
+	blackboard->SetValueAsBool(BBKeys::PlayerDetected, true);
 }
