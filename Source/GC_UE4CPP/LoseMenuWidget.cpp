@@ -9,9 +9,12 @@ void ULoseMenuWidget::NativeConstruct()
 	Super::NativeConstruct();
 
 	RestartButton->OnClicked.AddUniqueDynamic(this, &ULoseMenuWidget::RestartGame);
+	UGameplayStatics::GetPlayerController(this, 0)->SetShowMouseCursor(true);
+
 }
 
 void ULoseMenuWidget::RestartGame()
 {
+	UGameplayStatics::GetPlayerController(this, 0)->SetShowMouseCursor(false);
 	UGameplayStatics::OpenLevel(this, "LevelFlo");
 }
