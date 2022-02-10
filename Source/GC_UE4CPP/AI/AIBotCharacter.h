@@ -29,6 +29,9 @@ public:
 		USkeletalMeshComponent* SKmesh;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		UCapsuleComponent* CapsuleComp;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		int CycleIndex;
 
 	UPROPERTY(VisibleInstanceOnly, Category = "Runtime")
@@ -45,6 +48,7 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -56,4 +60,7 @@ public:
 	void GetFromTheGround();
 	//Put Item on ground
 	void PutOnTheGround();
+
+	UFUNCTION()
+		void CallbackComponentHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 };
