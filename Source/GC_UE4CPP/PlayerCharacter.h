@@ -50,6 +50,11 @@ public:
 
 	UPROPERTY(VisibleAnywhere)
 		class AFood* Food;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Speed")
+		float WalkSpeed = 450.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Speed")
+		float CarrySpeed = 250.0f;
 
 	UFUNCTION()
 		FVector RecupPlayerVelocity();

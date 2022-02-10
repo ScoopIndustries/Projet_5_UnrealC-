@@ -56,6 +56,17 @@ void APlayerCharacter::BeginPlay()
 void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	if (IsCarrying)
+	{
+		auto CharaMove = this->GetCharacterMovement();
+		CharaMove->MaxWalkSpeed = CarrySpeed;
+
+	}
+	else
+	{
+		auto CharaMove = this->GetCharacterMovement();
+		CharaMove->MaxWalkSpeed = WalkSpeed;
+	}
 }
 
 // Called to bind functionality to input
