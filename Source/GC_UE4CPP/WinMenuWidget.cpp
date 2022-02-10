@@ -13,11 +13,10 @@ void UWinMenuWidget::NativeConstruct()
 	UGameplayStatics::SetGamePaused(GetWorld(), true);
 
 	UGameplayStatics::GetPlayerController(this, 0)->SetShowMouseCursor(true);
-
+	UGameplayStatics::GetPlayerController(this, 0)->UnPossess();
 }
 
 void UWinMenuWidget::RestartGame()
 {
-	UGameplayStatics::GetPlayerController(this, 0)->SetShowMouseCursor(false);
-	UGameplayStatics::OpenLevel(this, "LevelFlo");
+	UGameplayStatics::OpenLevel(this, "Level");
 }
