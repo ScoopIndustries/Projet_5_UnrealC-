@@ -8,13 +8,20 @@ void ULoseMenuWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	RestartButton->OnClicked.AddUniqueDynamic(this, &ULoseMenuWidget::RestartGame);
 	UGameplayStatics::GetPlayerController(this, 0)->SetShowMouseCursor(true);
 	UGameplayStatics::GetPlayerController(this, 0)->UnPossess();
+
+	RestartButton->OnClicked.AddUniqueDynamic(this, &ULoseMenuWidget::RestartGame);
+	QuitButton->OnClicked.AddUniqueDynamic(this, &ULoseMenuWidget::QuitGame);
 
 }
 
 void ULoseMenuWidget::RestartGame()
 {
 	UGameplayStatics::OpenLevel(this, "Level");
+}
+
+void ULoseMenuWidget::QuitGame()
+{
+	FPlatformMisc::RequestExit(false);
 }

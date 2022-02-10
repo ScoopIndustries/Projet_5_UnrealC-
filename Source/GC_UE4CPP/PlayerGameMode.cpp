@@ -8,6 +8,7 @@
 #include "AI/Waypoint.h"
 #include "WinMenuWidget.h"
 #include "LoseMenuWidget.h"
+#include "MainMenuWidget.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "Blueprint\UserWidget.h"
 
@@ -25,10 +26,11 @@ void APlayerGameMode::BeginPlay()
 		ScoreWidget = Cast<UScoreWidget>(CreateWidget(GetWorld(), ScoreWidgetClass));
 		WinWidget = Cast<UWinMenuWidget>(CreateWidget(GetWorld(), WinWidgetClass));
 		LoseWidget = Cast<ULoseMenuWidget>(CreateWidget(GetWorld(), LoseWidgetClass));
+		MainMenuWidget = Cast<UMainMenuWidget>(CreateWidget(GetWorld(), MainMenuWidgetClass));
 
-		if (ScoreWidget != nullptr)
+		if (MainMenuWidget != nullptr)
 		{
-			ScoreWidget->AddToViewport();
+			MainMenuWidget->AddToViewport();
 		}
 	}
 }
@@ -74,5 +76,18 @@ void APlayerGameMode::GameLost()
 	if (LoseWidget != nullptr)
 	{
 		LoseWidget->AddToViewport();
+	}
+}
+
+void APlayerGameMode::StartGame()
+{
+	UGameplayStatics::GetPlayerController(this, 0)->SetShowMouseCursor(false);
+
+	MainMenuWidget->RemoveFromViewport();
+	UGameplayStatics::SetGamePaused(GetWorld(), false);
+
+	if (ScoreWidget != nullptr)
+	{
+		ScoreWidget->AddToViewport();
 	}
 }

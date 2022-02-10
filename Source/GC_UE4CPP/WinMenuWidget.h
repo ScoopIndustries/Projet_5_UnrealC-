@@ -19,18 +19,18 @@ class GC_UE4CPP_API UWinMenuWidget : public UUserWidget
 protected:
 	void NativeConstruct() override;
 
-	UPROPERTY(VisibleInstanceOnly, Category = "Runtime")
-		class APlayerGameMode* PlayerGameMode;
-
-	UPROPERTY(VisibleInstanceOnly, Category = "Runtime")
-		class APlayerGameState* PlayerGameState;
-
 	UPROPERTY(meta = (BindWidget))
 		UTextBlock* WinLabel;
 
 	UPROPERTY(meta = (BindWidget))
 		class UButton* RestartButton;
 
+	UPROPERTY(meta = (BindWidget))
+		class UButton* QuitButton;
+
 	UFUNCTION()
 		void RestartGame();
+
+	UFUNCTION()
+		void QuitGame();
 };

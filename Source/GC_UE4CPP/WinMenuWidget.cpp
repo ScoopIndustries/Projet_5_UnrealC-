@@ -8,12 +8,11 @@ void UWinMenuWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	RestartButton->OnClicked.AddUniqueDynamic(this, &UWinMenuWidget::RestartGame);
-
-	//UGameplayStatics::SetGamePaused(GetWorld(), true);
-
 	UGameplayStatics::GetPlayerController(this, 0)->SetShowMouseCursor(true);
 	UGameplayStatics::GetPlayerController(this, 0)->UnPossess();
+
+	RestartButton->OnClicked.AddUniqueDynamic(this, &UWinMenuWidget::RestartGame);
+	QuitButton->OnClicked.AddUniqueDynamic(this, &UWinMenuWidget::QuitGame);
 }
 
 void UWinMenuWidget::RestartGame()
@@ -21,6 +20,7 @@ void UWinMenuWidget::RestartGame()
 	UGameplayStatics::OpenLevel(this, "Level");
 }
 
-/*
+void UWinMenuWidget::QuitGame()
+{
 	FPlatformMisc::RequestExit(false);
-*/
+}
