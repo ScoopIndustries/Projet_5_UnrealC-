@@ -21,6 +21,7 @@ EBTNodeResult::Type ULetOnGround::ExecuteTask(UBehaviorTreeComponent& Owner_Comp
 	player->FoodActor->DetachFromActor(rules);
 	player->isCarrying = false;
 
-	return EBTNodeResult::Succeeded;
+	FinishLatentTask(Owner_Component, EBTNodeResult::Succeeded);
+	return EBTNodeResult::Type();
 
 }
