@@ -9,6 +9,10 @@
 #include "WinMenuWidget.h"
 #include "LoseMenuWidget.h"
 #include "MainMenuWidget.h"
+#include "BehaviorTree/BlackboardComponent.h"
+#include "UObject/UObjectGlobals.h"
+#include "BehaviorTree/Tasks/BTTask_BlackboardBase.h"
+#include "EnemyController.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "Blueprint\UserWidget.h"
 
@@ -20,7 +24,7 @@ void APlayerGameMode::BeginPlay()
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AWaypoint::StaticClass(), ListOfPoint);
 
 	FTimerHandle SpawnTimer;
-	GetWorldTimerManager().SetTimer(SpawnTimer, this, &APlayerGameMode::SpawnEnemy, 10.0f, true);
+	GetWorldTimerManager().SetTimer(SpawnTimer, this, &APlayerGameMode::SpawnEnemy, 20.0f, true);
 	if (IsValid(ScoreWidgetClass))
 	{
 		ScoreWidget = Cast<UScoreWidget>(CreateWidget(GetWorld(), ScoreWidgetClass));
@@ -39,23 +43,16 @@ void APlayerGameMode::BeginPlay()
 void APlayerGameMode::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	bool IsStarted = false;
-
-	if (IsStarted == false)
-	{
-		FTimerHandle SpawnTimer;
-		GetWorldTimerManager().SetTimer(SpawnTimer, this, &APlayerGameMode::SpawnEnemy, 10.0f, false);
-		IsStarted = true;
-	}
-
 }
 
 void APlayerGameMode::SpawnEnemy()
 {
 	FActorSpawnParameters SpawnInfo;
 	auto ActorAI = GetWorld()->SpawnActor<AAIBotCharacter>(AIBotClass, FVector(580, 3240, 0), FRotator(0), SpawnInfo);
-	//auto ActorAII = GetWorld()->SpawnActor<AAIBotCharacter>(AIBotClass, FVector(580, 3240, 0), FRotator(0), SpawnInfo);
+	auto ActorAII = GetWorld()->SpawnActor<AAIBotCharacter>(AIBotClass, FVector(580, 3240, 0), FRotator(0), SpawnInfo);
+	auto cast = Cast<AEnemyController>(ActorAII->GetOwner());
+	cast->GetBlackboard()->SetValueAsBool(TEXT("HaveFood"), false);
+	cast->GetBlackboard()->SetValueAsBool(TEXT("IsPatrolling"), true);
 }
 
 void APlayerGameMode::GameWin()
