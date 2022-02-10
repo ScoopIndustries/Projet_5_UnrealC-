@@ -20,3 +20,7 @@ void UWinMenuWidget::RestartGame()
 {
 	UGameplayStatics::OpenLevel(this, "Level");
 }
+
+/*
+	FPlatformMisc::RequestExit(false);
+*/
