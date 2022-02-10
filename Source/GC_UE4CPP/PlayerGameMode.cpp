@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "ScoreWidget.h"
 #include "AI/Waypoint.h"
+#include "WinMenuWidget.h"
+#include "LoseMenuWidget.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "Blueprint\UserWidget.h"
 
@@ -18,9 +20,11 @@ void APlayerGameMode::BeginPlay()
 
 	FTimerHandle SpawnTimer;
 	GetWorldTimerManager().SetTimer(SpawnTimer, this, &APlayerGameMode::SpawnEnemy, 10.0f, false);
-	if (IsValid(WidgetClass))
+	if (IsValid(ScoreWidgetClass))
 	{
-		ScoreWidget = Cast<UScoreWidget>(CreateWidget(GetWorld(), WidgetClass));
+		ScoreWidget = Cast<UScoreWidget>(CreateWidget(GetWorld(), ScoreWidgetClass));
+		WinWidget = Cast<UWinMenuWidget>(CreateWidget(GetWorld(), WinWidgetClass));
+		LoseWidget = Cast<ULoseMenuWidget>(CreateWidget(GetWorld(), LoseWidgetClass));
 
 		if (ScoreWidget != nullptr)
 		{
@@ -50,4 +54,25 @@ void APlayerGameMode::SpawnEnemy()
 	FActorSpawnParameters SpawnInfo;
 	auto ActorAI = GetWorld()->SpawnActor<AAIBotCharacter>(AIBotClass, FVector(580, 3240, 0), FRotator(0), SpawnInfo);
 	auto ActorAII = GetWorld()->SpawnActor<AAIBotCharacter>(AIBotClass, FVector(580, 3240, 0), FRotator(0), SpawnInfo);
+}
+
+void APlayerGameMode::GameWin()
+{
+	ScoreWidget->RemoveFromViewport();
+
+	if (WinWidget != nullptr)
+	{
+		WinWidget->AddToViewport();
+
+	}
+}
+
+void APlayerGameMode::GameLost()
+{
+	ScoreWidget->RemoveFromViewport();
+
+	if (LoseWidget != nullptr)
+	{
+		LoseWidget->AddToViewport();
+	}
 }

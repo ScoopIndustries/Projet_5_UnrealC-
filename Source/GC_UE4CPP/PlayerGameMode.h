@@ -20,6 +20,10 @@ public:
 
 	float GetMaxFoodConditionWin() const { return MaxFoodConditionWin; }
 	virtual void Tick(float DeltaTime) override;
+	UFUNCTION()
+		void GameWin();
+	UFUNCTION()
+		void GameLost();
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 		TSubclassOf<class AFood> FoodClass;
 
@@ -31,13 +35,25 @@ protected:
 	void SpawnEnemy();
 
 	UPROPERTY(EditAnywhere)
-		float MaxFoodConditionWin = 10.f;
+		float MaxFoodConditionWin = 3.f;
 
 	UPROPERTY(EditAnywhere, Category = "Class Types")
-		TSubclassOf<UUserWidget> WidgetClass;
+		TSubclassOf<UUserWidget> ScoreWidgetClass;
+
+	UPROPERTY(EditAnywhere, Category = "Class Types")
+		TSubclassOf<UUserWidget> WinWidgetClass;
+
+	UPROPERTY(EditAnywhere, Category = "Class Types")
+		TSubclassOf<UUserWidget> LoseWidgetClass;
 
 	UPROPERTY(VisibleInstanceOnly, Category = "Runtime")
 		class UScoreWidget* ScoreWidget;
+
+	UPROPERTY(VisibleInstanceOnly, Category = "Runtime")
+		class UWinMenuWidget* WinWidget;
+
+	UPROPERTY(VisibleInstanceOnly, Category = "Runtime")
+		class ULoseMenuWidget* LoseWidget;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		TSubclassOf<AAIBotCharacter> AIBotClass;
