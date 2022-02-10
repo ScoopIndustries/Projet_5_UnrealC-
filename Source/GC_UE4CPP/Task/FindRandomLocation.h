@@ -20,4 +20,9 @@ class GC_UE4CPP_API UFindRandomLocation : public UBTTask_BlackboardBase
 public:
 	UFindRandomLocation(FObjectInitializer const& Object_Initializer);
 	EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& Owner_Component, uint8* Node_Memory);
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+		TSubclassOf<class AFood> FoodClass;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		TArray<AActor*> ListOfPoint;
 };

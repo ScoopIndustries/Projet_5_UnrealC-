@@ -6,6 +6,7 @@
 #include "Components/SceneComponent.h"
 #include "Waypoint.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
+#include "../PlayerGameMode.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Components/PrimitiveComponent.h"
 
@@ -22,10 +23,12 @@ AAIBotCharacter::AAIBotCharacter()
 void AAIBotCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+	auto GameMode = GetWorld()->GetAuthGameMode();
+	auto CastGM = Cast<APlayerGameMode>(GameMode);
+
 	auto CharaMove = this->GetCharacterMovement();
 	CharaMove->MaxWalkSpeed = 450.0f;
-	//Get All actor Needs to place food
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AWaypoint::StaticClass(), ListOfPoint);
+
 
 	//Spawn Actor (Food) on the socket
 	FActorSpawnParameters SpawnInfo;

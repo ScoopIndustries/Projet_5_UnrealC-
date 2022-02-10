@@ -7,6 +7,7 @@
 #include "BehaviorTree/Blackboard/BlackboardKeyType_Vector.h"
 #include "Runtime/NavigationSystem/Public/NavigationSystem.h"
 #include "../EnemyController.h"
+#include "../PlayerGameMode.h"
 #include "Math/UnrealMathUtility.h"
 #include "GC_UE4CPP/AI/AIBotCharacter.h"
 #include "Blackboard_Keys.h"
@@ -22,10 +23,12 @@ EBTNodeResult::Type UFindRandomLocation::ExecuteTask(UBehaviorTreeComponent& Own
 	auto const controller = Cast<AEnemyController>(Owner_Component.GetAIOwner());
 	auto const enemy = controller->GetPawn();
 	auto const player = Cast<AAIBotCharacter>(enemy);
+	auto GameMode = GetWorld()->GetAuthGameMode();
+	auto CastGM = Cast<APlayerGameMode>(GameMode);
 
 	INT8 Index = FMath::RandRange(0, 4);
 
-	FVector location = player->ListOfPoint[Index]->GetActorLocation();
+	FVector location = CastGM->ListOfPoint[Index]->GetActorLocation();
 	controller->GetBlackboard()->SetValueAsVector(bb_keys::Target_Location, location);
 	controller->GetBlackboard()->SetValueAsInt(bb_keys::IndexListPlate, Index);
 

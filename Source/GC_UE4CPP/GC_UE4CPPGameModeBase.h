@@ -33,5 +33,7 @@ protected:
 
 	UPROPERTY(VisibleInstanceOnly, Category = "Runtime")
 		class UScoreWidget* ScoreWidget;
+
+
 	
 };

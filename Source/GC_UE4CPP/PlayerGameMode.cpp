@@ -2,18 +2,25 @@
 
 
 #include "PlayerGameMode.h"
+#include "CoreMinimal.h"
+#include "GameFramework/Character.h"
 #include "ScoreWidget.h"
-#include "WinMenuWidget.h"
-#include "LoseMenuWidget.h"
+#include "AI/Waypoint.h"
+#include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "Blueprint\UserWidget.h"
 
 void APlayerGameMode::BeginPlay()
 {
-	if (IsValid(ScoreWidgetClass))
+	Super::BeginPlay();
+
+	//Get All actor Needs to place food
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AWaypoint::StaticClass(), ListOfPoint);
+
+	FTimerHandle SpawnTimer;
+	GetWorldTimerManager().SetTimer(SpawnTimer, this, &APlayerGameMode::SpawnEnemy, 10.0f, false);
+	if (IsValid(WidgetClass))
 	{
-		ScoreWidget = Cast<UScoreWidget>(CreateWidget(GetWorld(), ScoreWidgetClass));
-		WinWidget = Cast<UWinMenuWidget>(CreateWidget(GetWorld(), WinWidgetClass));
-		LoseWidget = Cast<ULoseMenuWidget>(CreateWidget(GetWorld(), LoseWidgetClass));
+		ScoreWidget = Cast<UScoreWidget>(CreateWidget(GetWorld(), WidgetClass));
 
 		if (ScoreWidget != nullptr)
 		{
@@ -22,23 +29,25 @@ void APlayerGameMode::BeginPlay()
 	}
 }
 
-void APlayerGameMode::GameWin()
-{
-	ScoreWidget->RemoveFromViewport();
 
-	if (WinWidget != nullptr)
+void APlayerGameMode::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	bool IsStarted = false;
+
+	if (IsStarted == false)
 	{
-		WinWidget->AddToViewport();
-		
+		FTimerHandle SpawnTimer;
+		GetWorldTimerManager().SetTimer(SpawnTimer, this, &APlayerGameMode::SpawnEnemy, 10.0f, false);
+		IsStarted = true;
 	}
+
 }
 
-void APlayerGameMode::GameLost()
+void APlayerGameMode::SpawnEnemy()
 {
-	ScoreWidget->RemoveFromViewport();
-
-	if (LoseWidget != nullptr)
-	{
-		LoseWidget->AddToViewport();
-	}
+	FActorSpawnParameters SpawnInfo;
+	auto ActorAI = GetWorld()->SpawnActor<AAIBotCharacter>(AIBotClass, FVector(580, 3240, 0), FRotator(0), SpawnInfo);
+	auto ActorAII = GetWorld()->SpawnActor<AAIBotCharacter>(AIBotClass, FVector(580, 3240, 0), FRotator(0), SpawnInfo);
 }
