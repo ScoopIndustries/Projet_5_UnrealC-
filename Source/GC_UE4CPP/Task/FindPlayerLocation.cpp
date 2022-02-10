@@ -19,8 +19,11 @@ EBTNodeResult::Type UFindPlayerLocation::ExecuteTask(UBehaviorTreeComponent& own
 	ACharacter* const player = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 	auto const cont = Cast<AEnemyController>(owner_comp.GetAIOwner());
 
-	cont->GetBlackboard()->SetValueAsVector(BBKeys::PlayerLocation, player->GetActorLocation());
-
+	if (player != nullptr)
+	{
+		cont->GetBlackboard()->SetValueAsVector(BBKeys::PlayerLocation, player->GetActorLocation());
+	}
+	
 	FinishLatentTask(owner_comp, EBTNodeResult::Succeeded);
 	return EBTNodeResult::Type();
 }
