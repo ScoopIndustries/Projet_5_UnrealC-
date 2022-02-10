@@ -19,6 +19,7 @@ AAIBotCharacter::AAIBotCharacter()
 	SKmesh = GetMesh();
 	CapsuleComp = GetCapsuleComponent();
 	socket = TEXT("Fist_R_endSocket");
+	isCarrying = true;
 }
 
 // Called when the game starts or when spawned
@@ -48,7 +49,7 @@ void AAIBotCharacter::BeginPlay()
 void AAIBotCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (FoodActor != nullptr)
+	if (FoodActor != nullptr && isCarrying)
 	{
 		isCarrying = true;
 		auto CharaMove = this->GetCharacterMovement();
