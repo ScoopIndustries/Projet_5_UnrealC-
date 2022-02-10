@@ -35,7 +35,7 @@ protected:
 	void SpawnEnemy();
 
 	UPROPERTY(EditAnywhere)
-		float MaxFoodConditionWin = 3.f;
+		float MaxFoodConditionWin = 5.f;
 
 	UPROPERTY(EditAnywhere, Category = "Class Types")
 		TSubclassOf<UUserWidget> ScoreWidgetClass;
