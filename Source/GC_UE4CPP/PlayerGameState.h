@@ -17,7 +17,7 @@ class GC_UE4CPP_API APlayerGameState : public AGameStateBase
 public :
 
 	UPROPERTY(VisibleAnywhere)
-		float FoodCollected = 2.f;
+		float FoodCollected = 0.f;
 	UPROPERTY(VisibleAnywhere)
 		int8 Cycle = 0;
 	
