@@ -24,6 +24,7 @@ EBTNodeResult::Type UPutItemOnPlate::ExecuteTask(UBehaviorTreeComponent& OwnerCo
 	auto CastGM = Cast<APlayerGameMode>(GameMode);
 
 	auto const Index = controller->GetBlackboard()->GetValueAsInt(TEXT("IndexListPlate"));
+	auto HaveFood = controller->GetBlackboard()->GetValueAsBool(TEXT("HaveFood"));
 	auto plate = CastGM->ListOfPoint[Index];
 	auto const CastPlate = Cast<AWaypoint>(plate);
 
@@ -36,6 +37,7 @@ EBTNodeResult::Type UPutItemOnPlate::ExecuteTask(UBehaviorTreeComponent& OwnerCo
 			player->FoodActor->AttachToActor(plate, Rules, TEXT("SocketApple"));
 			CastPlate->Food = player->FoodActor;
 			player->FoodActor = nullptr;
+			controller->GetBlackboard()->SetValueAsBool(TEXT("HaveFood"), false);
 			return EBTNodeResult::Succeeded;
 	}
 	return EBTNodeResult::Failed;

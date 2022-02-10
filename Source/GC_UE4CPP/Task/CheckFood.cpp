@@ -30,6 +30,5 @@ EBTNodeResult::Type UCheckFood::ExecuteTask(UBehaviorTreeComponent& Owner_Compon
 			FoodInWorld++;
 		}
 	}
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("%FoodInWorld"));
 	return EBTNodeResult::Succeeded;
 }
