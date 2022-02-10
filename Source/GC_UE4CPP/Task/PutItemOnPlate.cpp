@@ -5,6 +5,7 @@
 #include "BBkey.h"
 #include "../EnemyController.h"
 #include "../AI/Waypoint.h"
+#include "../PlayerGameMode.h"
 #include "GC_UE4CPP/AI/AIBotCharacter.h"
 
 UPutItemOnPlate::UPutItemOnPlate()
@@ -19,9 +20,11 @@ EBTNodeResult::Type UPutItemOnPlate::ExecuteTask(UBehaviorTreeComponent& OwnerCo
 	auto const controller = Cast<AEnemyController>(OwnerComp.GetAIOwner());
 	auto const enemy = controller->GetPawn();
 	auto const player = Cast<AAIBotCharacter>(enemy);
+	auto GameMode = GetWorld()->GetAuthGameMode();
+	auto CastGM = Cast<APlayerGameMode>(GameMode);
 
 	auto const Index = controller->GetBlackboard()->GetValueAsInt(TEXT("IndexListPlate"));
-	auto plate = player->ListOfPoint[Index];
+	auto plate = CastGM->ListOfPoint[Index];
 	auto const CastPlate = Cast<AWaypoint>(plate);
 
 	if ((player->GetActorLocation().X - plate->GetActorLocation().X) < 600.0f && CastPlate->Food == nullptr && player->FoodActor != nullptr)

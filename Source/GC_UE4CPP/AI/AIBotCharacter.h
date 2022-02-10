@@ -28,12 +28,6 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)	
 		USkeletalMeshComponent* SKmesh;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-		TSubclassOf<class AFood> FoodClass;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-		TArray<AActor*> ListOfPoint;
-
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		int CycleIndex;
 
@@ -45,6 +39,8 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Speed")
 		float CarrySpeed = 250.0f;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+		TSubclassOf<class AFood> FoodClass;
 
 protected:
 	// Called when the game starts or when spawned

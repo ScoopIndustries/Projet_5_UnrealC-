@@ -5,11 +5,16 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "ScoreWidget.h"
+#include "AI/Waypoint.h"
+#include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "Blueprint\UserWidget.h"
 
 void APlayerGameMode::BeginPlay()
 {
 	Super::BeginPlay();
+
+	//Get All actor Needs to place food
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AWaypoint::StaticClass(), ListOfPoint);
 
 	FTimerHandle SpawnTimer;
 	GetWorldTimerManager().SetTimer(SpawnTimer, this, &APlayerGameMode::SpawnEnemy, 10.0f, false);
@@ -44,7 +49,5 @@ void APlayerGameMode::SpawnEnemy()
 {
 	FActorSpawnParameters SpawnInfo;
 	auto ActorAI = GetWorld()->SpawnActor<AAIBotCharacter>(AIBotClass, FVector(580, 3240, 0), FRotator(0), SpawnInfo);
-	auto ControllerAI = GetWorld()->SpawnActor<AEnemyController>(EnemyController, FVector(580, 3240, 0), FRotator(0), SpawnInfo);
-	FAttachmentTransformRules Rules(EAttachmentRule::SnapToTarget, EAttachmentRule::KeepWorld, EAttachmentRule::KeepWorld, false);
-	ControllerAI->AttachToActor(ActorAI, Rules);
+	auto ActorAII = GetWorld()->SpawnActor<AAIBotCharacter>(AIBotClass, FVector(580, 3240, 0), FRotator(0), SpawnInfo);
 }

@@ -20,6 +20,11 @@ public:
 
 	float GetMaxFoodConditionWin() const { return MaxFoodConditionWin; }
 	virtual void Tick(float DeltaTime) override;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+		TSubclassOf<class AFood> FoodClass;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		TArray<AActor*> ListOfPoint;
 
 protected:
 	virtual void BeginPlay() override;
@@ -38,4 +43,6 @@ protected:
 		TSubclassOf<AAIBotCharacter> AIBotClass;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		TSubclassOf<AEnemyController> EnemyController;
+
+
 };
