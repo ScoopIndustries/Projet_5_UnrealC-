@@ -8,6 +8,7 @@
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "../PlayerGameMode.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Components/CapsuleComponent.h"
 #include "Components/PrimitiveComponent.h"
 
 // Sets default values
@@ -16,6 +17,7 @@ AAIBotCharacter::AAIBotCharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	SKmesh = GetMesh();
+	CapsuleComp = GetCapsuleComponent();
 	socket = TEXT("Fist_R_endSocket");
 }
 
@@ -37,6 +39,8 @@ void AAIBotCharacter::BeginPlay()
 	FoodActor = GetWorld()->SpawnActor<AFood>(FoodClass, SocketR, CharRotation, SpawnInfo);
 	FAttachmentTransformRules Rules(EAttachmentRule::SnapToTarget, EAttachmentRule::KeepWorld, EAttachmentRule::KeepWorld, false);
 	FoodActor->AttachToComponent(SKmesh, Rules, socket);
+
+	CapsuleComp->OnComponentHit.AddDynamic(this, &AAIBotCharacter::CallbackComponentHit);
 }
 
 
@@ -66,4 +70,10 @@ void AAIBotCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 
 }
 
+void AAIBotCharacter::CallbackComponentHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit) {
 
+	if (OtherActor->ActorHasTag("Player")) {
+		auto CastGM = Cast<APlayerGameMode>(GetWorld()->GetAuthGameMode());
+		CastGM->GameLost();
+	}
+}

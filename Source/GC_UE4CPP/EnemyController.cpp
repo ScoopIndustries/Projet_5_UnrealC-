@@ -12,6 +12,7 @@
 #include "TP_ThirdPerson/TP_ThirdPersonCharacter.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "Task/BBKey.h"
+#include "PlayerCharacter.h"
 
 
 AEnemyController::AEnemyController(FObjectInitializer const& ObjectInitializer = FObjectInitializer::Get()) {
@@ -21,6 +22,7 @@ AEnemyController::AEnemyController(FObjectInitializer const& ObjectInitializer =
 	{
 		BTree = obj.Object;
 	}
+
 	BehaviorTreeComponent = ObjectInitializer.CreateDefaultSubobject<UBehaviorTreeComponent>(this, TEXT("BehaviorTreeComponent"));
 	blackboard = ObjectInitializer.CreateDefaultSubobject<UBlackboardComponent>(this, TEXT("BlackboardComponent"));
 
@@ -75,5 +77,11 @@ FRotator AEnemyController::GetControlRotation() const {
 
 void AEnemyController::OnPawnDetected(const TArray<AActor*> &DetectedPawns) {
 
-	blackboard->SetValueAsBool(BBKeys::PlayerDetected, true);
+	for (size_t i = 0; i < DetectedPawns.Num(); i++) {
+		if (Cast<APlayerCharacter>(DetectedPawns[i])) {
+			blackboard->SetValueAsBool(BBKeys::PlayerDetected, true);
+		}
+	}
+	
+	
 }
